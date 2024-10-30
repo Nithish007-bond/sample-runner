@@ -25,7 +25,7 @@ jobs:
               (Get-Content $filePath) -replace [regex]::Escape($oldStrings[$i]), $newStrings[$i] | Set-Content $filePath
               Write-Host "Replaced '$($oldStrings[$i])' with '$($newStrings[$i])' in $filePath"
             }
-            Write-Host "Updated $filePath:"
+            Write-Host "Updated `${filePath}`:"
             Get-Content $filePath
           } else {
             Write-Host "$filePath does not exist."
