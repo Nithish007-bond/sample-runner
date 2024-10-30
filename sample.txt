@@ -1,5 +1,2 @@
-hello dev
-we dev
-hi dev
-dev and
-dev with
+dev test example
+example test dev
