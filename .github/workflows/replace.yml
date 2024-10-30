@@ -3,11 +3,11 @@ name: Replace old strings with new strings
 on:
   push:
     branches:
-      - test
+      - test1
 
 jobs:
   replace-word:
-    runs-on: ubuntu-latest  
+    runs-on: windows-latest  
 
     steps:
     - name: Checkout repository
@@ -15,19 +15,19 @@ jobs:
 
     - name: Replace multiple strings in text files
       run: |
-        filePaths=("sample.txt" "sample1.txt" "sample2.txt")
-        oldStrings=("dev" "test" "example")
-        newStrings=("sit" "prod" "sample")
+        $filePaths = @('sample.txt', 'sample1.txt', 'sample2.txt')
+        $oldStrings = @('dev', 'test', 'example')
+        $newStrings = @('sit', 'prod', 'sample')
 
-        for filePath in "${filePaths[@]}"; do
-          if [ -f "$filePath" ]; then
-            for i in "${!oldStrings[@]}"; do
-              sed -i "s/${oldStrings[i]}/${newStrings[i]}/g" "$filePath"
-              echo "Replaced '${oldStrings[i]}' with '${newStrings[i]}' in $filePath"
-            done
-            echo "Updated $filePath:"
-            cat "$filePath"
-          else
-            echo "$filePath does not exist."
-          fi
-        done
+        foreach ($filePath in $filePaths) {
+          if (Test-Path $filePath) {
+            for ($i = 0; $i -lt $oldStrings.Count; $i++) {
+              (Get-Content $filePath) -replace [regex]::Escape($oldStrings[$i]), $newStrings[$i] | Set-Content $filePath
+              Write-Host "Replaced '$($oldStrings[$i])' with '$($newStrings[$i])' in $filePath"
+            }
+            Write-Host "Updated $filePath:"
+            Get-Content $filePath
+          } else {
+            Write-Host "$filePath does not exist."
+          }
+        }
