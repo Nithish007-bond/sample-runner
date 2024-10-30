@@ -3,7 +3,7 @@ name: Replace 'dev' with 'sit'
 on:
   push:
     branches:
-      - test3  
+      - main 
 
 jobs:
   replace-word:
