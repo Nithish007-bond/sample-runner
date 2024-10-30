@@ -1,9 +1,9 @@
-name: Replace 'dev' with 'sit'
+name: Replace old strings with new strings
 
 on:
   push:
     branches:
-      - main 
+      - test1
 
 jobs:
   replace-word:
@@ -13,20 +13,21 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Replace 'dev' with 'sit' in text file
+    - name: Replace multiple strings in text files
       run: |
         filePaths=("sample.txt" "sample1.txt" "sample2.txt")
-        oldString="dev"
-        newString="sit"
+        oldStrings=("dev" "test" "example")
+        newStrings=("sit" "prod" "sample")
 
         for filePath in "${filePaths[@]}"; do
           if [ -f "$filePath" ]; then
-            sed -i "s/$oldString/$newString/g" "$filePath"
+            for i in "${!oldStrings[@]}"; do
+              sed -i "s/${oldStrings[i]}/${newStrings[i]}/g" "$filePath"
+              echo "Replaced '${oldStrings[i]}' with '${newStrings[i]}' in $filePath"
+            done
             echo "Updated $filePath:"
             cat "$filePath"
           else
             echo "$filePath does not exist."
           fi
         done
-
-    
