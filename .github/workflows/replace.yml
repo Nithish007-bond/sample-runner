@@ -3,7 +3,7 @@ name: Replace old strings with new strings
 on:
   push:
     branches:
-      - test1
+      - test
 
 jobs:
   replace-word:
